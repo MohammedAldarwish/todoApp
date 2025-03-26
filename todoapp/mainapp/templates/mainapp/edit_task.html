@@ -1,0 +1,22 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8 mx-auto">
+                <form method="POST" class="form border p-2 my-5">
+                {% csrf_token %}
+                    <h1 class="text-center">Task Edit</h1>
+                    <input type="text" name="title_edit" class="form-control my-3 border border-success" placeholder="add new todo">
+                    <input type="submit" value="Add" class="form-control btn btn-primary my-3 " placeholder="add new todo">
+                    <label for="priority" class="form-label fw-bold">Select Priority:</label>
+                    <select name="priority" id="priority" class="form-select my-3" aria-label="Select Task Priority">
+                        <option value="1" class="text-danger" >🔥 High</option>
+                        <option value="2" class="text-warning">⚠️ Medium</option>
+                        <option value="3" class="text-success" selected>✅ Low</option>
+                    </select>
+                </form>
+        </div>
+{% endblock content %}

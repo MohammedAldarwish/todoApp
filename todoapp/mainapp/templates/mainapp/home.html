@@ -1,0 +1,64 @@
+{% extends 'mainapp/base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <form method="POST" class="form border p-2 my-5">
+                {% csrf_token %}
+                
+                <input type="text" name="title" class="form-control mb-3 border border-success" placeholder="Add new task" required>
+                
+                <label for="priority" class="form-label fw-bold">Select Priority:</label>
+                <select name="priority" id="priority" class="form-select mb-3" aria-label="Select Task Priority">
+                    <option value="1" class="text-danger">🔥 High</option>
+                    <option value="2" class="text-warning" selected>⚠️ Medium</option>
+                    <option value="3" class="text-success">✅ Low</option>
+                </select>
+    
+                <input type="submit" value="Add Task" class="form-control btn btn-primary">
+            </form>
+        </div>
+    </div>
+    <div class="col-12 mb-3">
+        <a href="{% url 'all_completed_tasks' %}" class="btn btn-secondary">View Completed Tasks</a>
+    </div>
+    <div class="col-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Task</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.id }}</td>
+                        <td>
+                            {% if task.priority == 1 %}
+                                <i class="fas fa-exclamation-circle text-danger"></i> <!-- High -->
+                            {% elif task.priority == 2 %}
+                                <i class="fas fa-exclamation-triangle text-warning"></i> <!-- Medium -->
+                            {% else %}
+                                <i class="fas fa-check-circle text-success"></i> <!-- Low -->
+                            {% endif %}
+                            {{ task.title }} 
+                        </td>
+
+                        <td>
+                                <a href="{% url 'delete' task.id %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</a>
+
+                                <a href="{% url 'edit' task.id %}" class="btn btn-info"><i class="fa-solid fa-edit"></i> Edit</a>
+
+                                <a href="{% url 'complete_task' task.id %}" class="btn btn-success"><i class="fa-solid fa-check"></i> Done</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
